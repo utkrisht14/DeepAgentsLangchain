@@ -1,0 +1,8 @@
+The problem is:
+
+1. User asks for a 2-day Rovaniemi trip plan.
+2. Agent creates a small task list.
+3. Agent uses a city information tool.
+4. Agent creates the Saturday and Sunday itinerary.
+5. Agent saves the full plan in `/weekend_plan.md`.
+6. Agent gives the user a short summary.
