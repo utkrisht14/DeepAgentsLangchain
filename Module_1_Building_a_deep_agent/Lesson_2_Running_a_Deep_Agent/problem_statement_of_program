@@ -1,0 +1,8 @@
+Title: Deep Agent Course Duration Finder
+
+1. User asks for the duration of a course.
+2. Deep Agent receives the request.
+3. Agent decides to use the course-duration tool.
+4. Tool returns the duration.
+5. Agent generates the final answer.
+6. Program displays both the execution messages and final response.
