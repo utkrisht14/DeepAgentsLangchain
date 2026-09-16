@@ -1,0 +1,27 @@
+========== AGENT EXECUTION ==========
+
+Message Type: HumanMessage
+Content:
+How long does the Agentic AI course take?
+--------------------------------------------------
+
+Message Type: AIMessage
+Tool Calls:
+[{'name': 'get_course_duration',
+  'args': {'course_name': 'Agentic AI'}}]
+--------------------------------------------------
+
+Message Type: ToolMessage
+Content:
+6 weeks
+--------------------------------------------------
+
+Message Type: AIMessage
+Content:
+The Agentic AI course takes approximately 6 weeks.
+--------------------------------------------------
+
+
+========== FINAL ANSWER ==========
+
+The Agentic AI course takes approximately 6 weeks.
