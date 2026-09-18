@@ -1,0 +1,51 @@
+We’ll use a local MCP server over stdio. The Deep Agent program starts/connects to that server automatically.
+The current LangChain first-party MCP integration uses `MCPAdapter`,
+which turns MCP tools into normal LangChain tools.
+
+
+FastMCP automatically creates the MCP tool schema from the Python function, type hints, and docstring.
+Its default run() transport is stdio, which is ideal for a local MCP server
+
+
+We do not need to separately start course_mcp_server.py.
+The MCP client configuration launches the local server process over stdio.
+FastMCP supports exactly this local server pattern.
+
+
+We should get output roughly like:
+
+========== MCP TOOLS DISCOVERED ==========
+
+Tool Name: get_course_details
+Description: Get the duration and fee of a training course.
+--------------------------------------------------
+
+
+========== FINAL ANSWER ==========
+
+The Agentic AI course lasts 6 weeks and costs €600.
+
+
+The most important flow to understand is:
+
+User
+ ↓
+Deep Agent
+ ↓
+Model
+ ↓
+Tool Call
+ ↓
+LangChain MCP Adapter
+ ↓
+MCP Client
+ ↓
+course_mcp_server.py
+ ↓
+get_course_details()
+ ↓
+MCP Result
+ ↓
+Model
+ ↓
+Final Answer
