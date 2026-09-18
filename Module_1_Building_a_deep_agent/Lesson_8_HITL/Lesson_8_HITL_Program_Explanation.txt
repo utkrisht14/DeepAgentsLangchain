@@ -1,0 +1,151 @@
+Lesson 8 - HITL Program Explanation
+
+----------------------------------------
+1. interrupt_on
+----------------------------------------
+
+interrupt_on tells the Deep Agent which tool should require human approval.
+
+Example:
+
+interrupt_on = {
+    "submit_expense": {
+        "allowed_decisions": ["approve", "reject"]
+    }
+}
+
+If the agent tries to call submit_expense,
+execution pauses before the tool runs.
+
+
+----------------------------------------
+2. Interrupt
+----------------------------------------
+
+The interrupt is the pause point.
+
+Flow:
+
+Agent chooses sensitive tool
+        ↓
+Interrupt happens
+        ↓
+Execution pauses
+        ↓
+Human decision is required
+
+At this point, the tool has NOT executed yet.
+
+
+----------------------------------------
+3. Checkpointer
+----------------------------------------
+
+The checkpointer saves the paused agent state.
+
+It remembers:
+
+- messages
+- tool request
+- current execution state
+
+This allows the program to continue later.
+
+
+----------------------------------------
+4. thread_id
+----------------------------------------
+
+thread_id identifies the paused conversation.
+
+The same thread_id must be used when resuming.
+
+Example:
+
+thread_id = "expense-thread-1"
+
+
+----------------------------------------
+5. Command(resume=...)
+----------------------------------------
+
+Command is used to continue the paused execution.
+
+Example:
+
+Command(
+    resume={
+        "decisions": [
+            {"type": "approve"}
+        ]
+    }
+)
+
+This tells LangGraph:
+
+"Resume the paused execution with this human decision."
+
+
+----------------------------------------
+6. Approve
+----------------------------------------
+
+If the human approves:
+
+Interrupt
+    ↓
+Command(resume=approve)
+    ↓
+Tool executes
+    ↓
+Agent continues
+
+
+----------------------------------------
+7. Reject
+----------------------------------------
+
+If the human rejects:
+
+Interrupt
+    ↓
+Command(resume=reject)
+    ↓
+Tool does not execute
+    ↓
+Agent continues
+
+
+----------------------------------------
+8. Complete Flow
+----------------------------------------
+
+User request
+    ↓
+Agent chooses sensitive tool
+    ↓
+interrupt_on matches the tool
+    ↓
+Execution pauses
+    ↓
+Checkpointer saves state
+    ↓
+Human chooses approve or reject
+    ↓
+Command(resume=...)
+    ↓
+Same thread_id is used
+    ↓
+Agent resumes
+    ↓
+Tool executes or is skipped
+    ↓
+Final response
+
+
+----------------------------------------
+9. One-Line Summary
+----------------------------------------
+
+interrupt_on decides where to pause, the checkpointer saves the paused state,
+thread_id identifies that execution, and Command(resume=...) continues it after the human decision.
