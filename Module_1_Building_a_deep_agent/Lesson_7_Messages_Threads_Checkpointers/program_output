@@ -1,0 +1,24 @@
+========== TURN 1 ==========
+
+Got it — your favorite programming language is Python.
+
+========== TURN 2 ==========
+
+Your favorite programming language is Python.
+
+========== MESSAGE HISTORY ==========
+
+HumanMessage:
+My favorite programming language is Python.
+--------------------------------------------------
+AIMessage:
+Got it — your favorite programming language is Python.
+--------------------------------------------------
+HumanMessage:
+What is my favorite programming language?
+--------------------------------------------------
+AIMessage:
+Your favorite programming language is Python.
+--------------------------------------------------
+
+Process finished with exit code 0
