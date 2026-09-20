@@ -10,4 +10,6 @@ dependencies = [
     "langchain-openai>=1.6.2",
     "fastmcp>=4.0.5",
     "python-dotenv>=1.2.3",
+    "modal>=1.5.5",
+    "langchain-modal>=0.0.6",
 ]
