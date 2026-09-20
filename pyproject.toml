@@ -12,4 +12,5 @@ dependencies = [
     "python-dotenv>=1.2.3",
     "modal>=1.5.5",
     "langchain-modal>=0.0.6",
+    "langchain-quickjs",
 ]

@@ -1,0 +1,33 @@
+The important part is what happens internally:
+
+TURN 1
+
+Model
+   ↓
+eval
+   ↓
+const courseFees = [400, 700, 600]
+   ↓
+QuickJS Interpreter
+   ↓
+Variable remains in REPL
+
+
+Then:
+
+TURN 2
+
+Same thread_id
+   ↓
+eval
+   ↓
+courseFees already exists
+   ↓
+Average + maximum calculated
+
+
+So unlike:
+execute("python script.py")
+
+which launches a shell/process, the Interpreter gives the agent a persistent QuickJS REPL. It has no normal filesystem,
+network, process, or require access unless capabilities are explicitly exposed.

@@ -1,0 +1,43 @@
+For `CodeInterpreterMiddleware`, the current `mode` options are:
+
+* `"thread"` — the code interpreter keeps variables/functions across multiple `eval` calls
+    **and across multiple agent turns**, as long as the same LangGraph `thread_id` is used.
+* `"turn"` — state is kept only during the current agent turn. On the next user turn, the interpreter starts fresh.
+* `"call"` — every individual `eval` call gets a fresh interpreter, so nothing from a previous `eval` is remembered.
+
+Example:
+
+```python
+interpreter = CodeInterpreterMiddleware(
+    mode="thread"
+)
+```
+
+If the agent first executes:
+
+```javascript
+let x = 10;
+```
+
+and later executes:
+
+```javascript
+x + 5
+```
+
+with `mode="thread"`, it can still remember `x` and return `15`.
+
+With `mode="turn"`, `x` survives only within that same agent turn.
+
+With `mode="call"`, even the next `eval` call starts fresh, so `x` would no longer exist. ([GitHub][1])
+
+A simple way to remember it is:
+
+```text
+thread → remember across conversation turns
+turn   → remember only during one agent turn
+call   → remember only during one eval call
+```
+
+`"thread"` is currently the default.
+
