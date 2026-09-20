@@ -1,0 +1,31 @@
+The three demos show the main distinction clearly:
+
+1. StateBackend
+   ↓
+/state_note.txt
+   ↓
+Agent State
+   ↓
+Virtual file
+
+
+2. FilesystemBackend
+   ↓
+/local_note.txt
+   ↓
+filesystem_demo/local_note.txt
+   ↓
+Real Windows file
+
+
+3. StoreBackend
+
+Thread A
+   ↓
+writes /shared_note.txt
+   ↓
+LangGraph Store
+   ↓
+Thread B
+   ↓
+reads /shared_note.txt
