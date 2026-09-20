@@ -2,7 +2,7 @@
 name = "deepagentslangchain"
 version = "0.1.0"
 description = "Add your description here"
-requires-python = ">=3.14"
+requires-python = ">=3.13"
 dependencies = [
     "deepagents>=0.7.14",
     "dotenv>=0.9.9",
@@ -13,4 +13,5 @@ dependencies = [
     "modal>=1.5.5",
     "langchain-modal>=0.0.6",
     "langchain-quickjs",
+    "langgraph>=1.2.11",
 ]
