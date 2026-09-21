@@ -1,0 +1,95 @@
+Because `task` is a **built-in Deep Agents delegation tool** that gets added automatically when subagents are available. You did not need to put it inside `tools=[...]`. ([GitHub][1])
+
+In our code:
+
+```python
+agent = create_deep_agent(
+    model="openai:gpt-5.5",
+    subagents=[risk_analyst],
+)
+```
+
+this:
+
+```python
+subagents=[risk_analyst]
+```
+
+causes Deep Agents to add a delegation middleware internally, and that middleware exposes:
+
+```text
+task
+```
+
+to the main agent. The `task` tool accepts things like:
+
+```text
+description
+subagent_type
+```
+
+So the flow is:
+
+```text
+create_deep_agent(...)
+        ↓
+subagents are provided
+        ↓
+SubAgentMiddleware is added
+        ↓
+Deep Agents creates built-in task tool
+        ↓
+Main model can call task(...)
+        ↓
+risk-analyst is invoked
+```
+
+Also, this part:
+
+```python
+"tools": []
+```
+
+inside:
+
+```python
+risk_analyst = {
+    ...
+    "tools": []
+}
+```
+
+means:
+
+> the **risk-analyst subagent itself has no additional tools**.
+
+It does **not** mean that the main agent has no `task` tool.
+
+So there are really two different tool levels:
+
+```text
+MAIN AGENT
+│
+└── task          ← automatically added by Deep Agents
+       ↓
+    risk-analyst
+       │
+       └── tools=[]   ← this subagent has no tools
+```
+
+That is why you saw:
+
+```text
+Tool Name: task
+Tool Input: {...}
+```
+
+even though we never manually wrote:
+
+```python
+tools=[task]
+```
+
+Deep Agents created it for us automatically.
+
+[1]: https://github.com/langchain-ai/deepagents/blob/main/libs/deepagents/deepagents/middleware/subagents.py?utm_source=chatgpt.com "deepagents/libs/deepagents/deepagents/middleware/subagents.py at main · langchain-ai/deepagents · GitHub"

@@ -1,0 +1,39 @@
+========== DELEGATION ==========
+
+Tool Name: task
+Tool Input: {'description': 'Review this project plan for delivery, technical, and operational risks. Context: launch a new customer dashboard in 6 weeks; development is around 70% complete; two developers are still working on critical features; testing has not started; one external API integration is unfinished. Identify key risks and recommend focus areas. Return a concise report with prioritized risks and actions.', 'subagent_type': 'risk-analyst'}
+--------------------------------------------------
+
+========== FINAL ANSWER ==========
+
+You should focus on reducing launch risk immediately rather than adding more scope.
+
+### Top priorities for the next 6 weeks
+
+1. **Finish and protect critical features**
+   - Confirm which features are truly required for launch.
+   - Defer anything non-essential.
+   - Track the two critical feature workstreams daily.
+   - Define clear launch / no-launch criteria.
+
+2. **Start testing now**
+   - Do not wait until all development is complete.
+   - Begin testing core customer journeys immediately.
+   - Prioritize login/access, dashboard data accuracy, permissions, performance, and regression testing.
+   - Reserve time for fixing defects, not just finding them.
+
+3. **De-risk the external API integration**
+   - Treat the unfinished API as a major launch dependency.
+   - Escalate it now and confirm timelines with the external provider.
+   - Test failure scenarios, latency, data mismatches, and fallback behavior.
+   - Create a contingency plan if the integration is delayed.
+
+4. **Prepare for launch operations**
+   - Set up monitoring and alerts.
+   - Prepare support documentation.
+   - Define rollback or disablement options.
+   - Create a launch checklist and owner assignments.
+
+### Recommendation
+
+Do a scope review immediately and shift the team into a launch-readiness mode. With 6 weeks left, the main risk is not just finishing development — it is discovering integration or quality issues too late. Start testing and integration validation now, while tightly managing the remaining critical features.

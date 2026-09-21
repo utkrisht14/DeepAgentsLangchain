@@ -1,0 +1,67 @@
+You should see a delegation flow roughly like:
+
+USER
+ ↓
+Main Agent
+ ↓
+"This needs specialist risk analysis"
+ ↓
+task
+ ↓
+risk-analyst
+ ↓
+Analyses:
+- testing risk
+- unfinished API integration
+- schedule/development risk
+ ↓
+Returns report
+ ↓
+Main Agent
+ ↓
+Final recommendation
+
+-------------------------------------------------------------------------
+
+
+The interesting part in your output should be something similar to:
+
+
+========== DELEGATION ==========
+
+Tool called: task
+
+Arguments:
+{
+    'subagent_type': 'risk-analyst',
+    'description': 'Analyse the following launch plan...'
+}
+
+
+-------------------------------------------------------------------------------
+
+
+Deep Agents currently exposes declarative subagents supplied through subagents=[...] through its built-in task tool;
+isolated context is the default mode.
+
+The main concept this program demonstrates is:
+
+Main Agent
+=
+Understands the overall problem
+
+Subagent
+=
+Handles one specialized subtask
+
+task tool
+=
+Delegates the work
+
+Subagent result
+=
+Returned to main agent
+
+Main Agent
+=
+Produces final answer
