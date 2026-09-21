@@ -1,0 +1,13 @@
+========== MAIN AGENT TOOL CALLS ==========
+
+Tool Name: eval
+Tool Input: {'code': 'const tickets = [\n  { number: 1, text: "I cannot log in after changing my password this morning." },\n  { number: 2, text: "Our production dashboard has stopped showing new customer data." },\n  { number: 3, text: "Please tell me how I can download last month\'s invoice." },\n];\n\nconst schema = {\n  type: "object",\n  properties: {\n    priority: { type: "string", enum: ["Low", "Medium", "High", "Urgent"] },\n    issue: { type: "string" },\n    recommendedAction: { type: "string" }\n  },\n  required: ["priority", "issue", "recommendedAction"]\n};\n\nconst analyses = await Promise.all(tickets.map(async (ticket) => {\n  const result = await task({\n    description: `Analyse this customer-support ticket independently. Determine its priority, identify the core issue, and recommend the next action. Return concise wording suitable for a support-manager summary.\\n\\nTicket ${ticket.number}: "${ticket.text}"`,\n    subagentType: "ticket-analyst",\n    label: `Ticket ${ticket.number}`,\n    responseSchema: schema,\n  });\n  return { ticketNumber: ticket.number, ...result };\n}));\n\nanalyses;'}
+----------------------------------------------------------------------
+
+========== FINAL TICKET REPORT ==========
+
+| Ticket # | Priority | Issue | Recommended action |
+|---:|---|---|---|
+| 1 | Medium | Customer cannot log in after changing their password. | Verify account status and password reset flow; guide the customer through a secure password reset if needed. |
+| 2 | High | Production dashboard is not displaying new customer data, indicating a potential data ingestion or sync failure. | Escalate to the data/engineering team to investigate pipeline health, recent deploys, and restore data updates urgently. |
+| 3 | Low | Customer needs guidance on downloading last month’s invoice. | Provide instructions or a direct link to the billing/invoices section and offer to resend the invoice if needed. |

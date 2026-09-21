@@ -1,0 +1,96 @@
+3 Support Tickets
+       ↓
+Main Agent
+       ↓
+eval
+       ↓
+QuickJS Interpreter
+       ↓
+JavaScript dynamically creates work
+       ↓
+ ┌─────────────┬─────────────┬─────────────┐
+ ↓             ↓             ↓
+task()        task()        task()
+Ticket 1      Ticket 2      Ticket 3
+ ↓             ↓             ↓
+ticket-       ticket-       ticket-
+analyst       analyst       analyst
+ └─────────────┴─────────────┴─────────────┘
+                     ↓
+               Collect results
+                     ↓
+                 Main Agent
+                     ↓
+               Final ticket table
+
+
+
+Inside the eval call, the model may generate JavaScript roughly like:
+
+const tickets = [
+    "I cannot log in after changing my password this morning.",
+    "Our production dashboard has stopped showing new customer data.",
+    "Please tell me how I can download last month's invoice."
+];
+
+const results = await Promise.all(
+    tickets.map((ticket, index) =>
+        task({
+            description:
+                `Analyse Ticket ${index + 1}: ${ticket}. ` +
+                `Return priority, issue, and recommended action.`,
+            subagentType: "ticket-analyst"
+        })
+    )
+);
+
+results;
+
+
+
+We do not write that JavaScript ourself in the Python program.
+The main model writes it dynamically inside the interpreter based on the number and shape of tickets.
+That is the central idea of this lesson.
+The current task() interpreter primitive takes a description and subagentType, runs a full subagent loop,
+and returns the subagent result.
+
+
+------------------------------------------------------------------------------------
+
+
+The distinction from the previous lesson is therefore:
+
+Lesson 2 — Subagent Team
+
+Main Agent
+   ↓
+task
+   ↓
+Subagent
+   ↓
+Main Agent
+   ↓
+task
+   ↓
+Another Subagent
+
+
+---versus---
+
+Lesson 3 — Dynamic Subagents
+
+Main Agent
+   ↓
+eval
+   ↓
+JavaScript workflow
+   ↓
+task()  task()  task()
+   ↓       ↓       ↓
+Multiple subagent runs
+   ↓
+Results combined programmatically
+
+
+That eval → JavaScript → task() relationship is the main thing to look for when you run this example.
+Dynamic subagents are currently a beta feature, so the API can still evolve.
