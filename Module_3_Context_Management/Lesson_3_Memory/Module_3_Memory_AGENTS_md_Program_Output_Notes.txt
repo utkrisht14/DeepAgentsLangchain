@@ -1,0 +1,343 @@
+Module 3 - Memory Demo
+AGENTS.md Memory - Expected Program Output and Flow
+
+==================================================
+1. PURPOSE OF THIS DEMO
+==================================================
+
+This program demonstrates Deep Agents memory using:
+
+AGENTS.md
+
+This is durable agent memory.
+
+It is NOT:
+
+- Checkpointer memory
+- Thread history
+- StoreBackend memory
+- Temporary message history
+
+The important idea is:
+
+Run 1 saves a durable preference into AGENTS.md.
+
+Run 2 creates a NEW agent with NO previous messages.
+
+The new agent still knows the preference because AGENTS.md is loaded again.
+
+
+==================================================
+2. INITIAL AGENTS.md
+==================================================
+
+Before running the program, AGENTS.md may contain:
+
+# Agent Memory
+
+## Project
+
+This project is for learning Deep Agents.
+
+
+==================================================
+3. RUN 1 - USER SAVES A DURABLE PREFERENCE
+==================================================
+
+The program creates:
+
+agent_1
+
+with:
+
+memory=["/AGENTS.md"]
+
+
+The user sends:
+
+"Remember this project preference:
+we use Python 3.13 and uv as the package manager.
+All future Python setup examples should use uv.
+Save this as durable memory."
+
+
+The agent understands that this is a durable preference.
+
+Because AGENTS.md memory is enabled, the agent updates the AGENTS.md file.
+
+
+Possible output:
+
+========== RUN 1: SAVE MEMORY ==========
+
+I will remember that this project uses Python 3.13
+and uv as the package manager.
+
+
+==================================================
+4. AGENTS.md AFTER RUN 1
+==================================================
+
+The program then prints the updated AGENTS.md file.
+
+It may now look similar to:
+
+# Agent Memory
+
+## Project
+
+This project is for learning Deep Agents.
+
+## Development Preferences
+
+- Use Python 3.13.
+- Use uv as the package manager.
+- Use uv in future Python setup examples.
+
+
+Important:
+
+The exact wording may be slightly different because the model decides how to write the memory.
+
+But the important facts should be stored:
+
+Python 3.13
+uv package manager
+
+
+==================================================
+5. WHAT HAPPENS NEXT
+==================================================
+
+The program creates a completely NEW agent:
+
+agent_2
+
+
+This new agent does NOT receive:
+
+- Messages from Run 1
+- Previous conversation history
+- A checkpointer
+- The previous result object
+
+
+The new agent only receives:
+
+memory=["/AGENTS.md"]
+
+
+So the flow is:
+
+Fresh Agent
+    ↓
+Reads AGENTS.md
+    ↓
+Loads durable memory
+    ↓
+Knows project preferences
+
+
+==================================================
+6. RUN 2 - RECALL MEMORY
+==================================================
+
+The user now asks:
+
+"Which Python version and package manager
+should I use for this project?"
+
+
+The new agent can answer because AGENTS.md is loaded.
+
+
+Possible output:
+
+========== RUN 2: RECALL MEMORY ==========
+
+Use Python 3.13 and uv as the package manager.
+
+
+==================================================
+7. IMPORTANT OBSERVATION
+==================================================
+
+The agent did NOT remember because of conversation history.
+
+It remembered because:
+
+Run 1
+    ↓
+User gives durable preference
+    ↓
+Agent updates AGENTS.md
+    ↓
+AGENTS.md is saved on disk
+
+
+Then:
+
+Run 2
+    ↓
+New Deep Agent instance
+    ↓
+AGENTS.md is loaded
+    ↓
+Preference becomes part of agent context
+    ↓
+Agent answers correctly
+
+
+==================================================
+8. COMPLETE FLOW
+==================================================
+
+RUN 1
+
+User:
+"Remember Python 3.13 and uv."
+
+        ↓
+
+Deep Agent
+
+        ↓
+
+AGENTS.md Memory
+
+        ↓
+
+Agent updates:
+
+/AGENTS.md
+
+        ↓
+
+Memory saved permanently
+
+
+--------------------------------------------------
+
+
+RUN 2
+
+New Deep Agent
+
+        ↓
+
+No previous messages
+
+        ↓
+
+No checkpointer
+
+        ↓
+
+Loads /AGENTS.md
+
+        ↓
+
+Reads:
+
+Python 3.13
+uv
+
+        ↓
+
+User asks:
+
+"What Python version and package manager should I use?"
+
+        ↓
+
+Agent answers:
+
+"Python 3.13 and uv."
+
+
+==================================================
+9. CHECKPOINTER VS AGENTS.md MEMORY
+==================================================
+
+Checkpointer:
+
+Conversation 1
+    ↓
+Messages saved
+    ↓
+Same thread_id
+    ↓
+Conversation continues
+
+
+AGENTS.md Memory:
+
+Agent Run 1
+    ↓
+Durable knowledge written to AGENTS.md
+    ↓
+Run ends
+    ↓
+Fresh Agent Run 2
+    ↓
+AGENTS.md loaded
+    ↓
+Knowledge is still available
+
+
+Simple difference:
+
+Checkpointer
+=
+Remember this conversation
+
+AGENTS.md
+=
+Remember durable instructions, preferences, conventions,
+and useful facts across fresh agent runs
+
+
+==================================================
+10. AGENTS.md MEMORY VS SKILLS
+==================================================
+
+AGENTS.md Memory:
+
+- Durable context
+- Preferences
+- Conventions
+- Project facts
+- Guidelines
+- Usually loaded automatically
+
+
+SKILL.md:
+
+- Procedure
+- Workflow
+- Instructions for how to perform a task
+- Loaded when that skill is needed
+
+
+Example:
+
+AGENTS.md:
+
+"Use uv for Python package management."
+
+
+SKILL.md:
+
+"How to create a Python project using uv:
+1. uv init
+2. uv add ...
+3. uv run ..."
+
+
+==================================================
+11. ONE-LINE SUMMARY
+==================================================
+
+AGENTS.md memory allows a Deep Agent to save durable knowledge
+in one run and reuse that knowledge in a completely fresh run
+without relying on previous messages or a checkpointer.
