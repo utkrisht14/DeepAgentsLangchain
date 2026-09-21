@@ -1,0 +1,49 @@
+========== DELEGATION ==========
+
+Tool Name: task
+Tool Input: {'description': 'Analyze the project delivery, technical, and operational risks for a customer dashboard launch in 4 weeks. Current situation: development is 75% complete; testing has not started; one API integration is unfinished; team has 3 developers; remaining budget is €20,000. Return a concise list of main risks with brief severity/impact and suggested mitigations. Do not do budget allocation.', 'subagent_type': 'risk-analyst'}
+--------------------------------------------------
+Tool Name: task
+Tool Input: {'description': 'Create a suggested allocation for the remaining €20,000 project budget for a customer dashboard launch in 4 weeks. Current situation: development is 75% complete; testing has not started; one API integration is unfinished; team has 3 developers. Return concise budget categories with euro amounts and rationale. Do not do risk analysis.', 'subagent_type': 'budget-planner'}
+--------------------------------------------------
+
+========== FINAL PROJECT REVIEW ==========
+
+## 1. Main risks
+
+1. **Testing has not started — high risk**
+   - With only 4 weeks left, defects may be found too late.
+   - Mitigation: start testing immediately in parallel with development, focusing on core user journeys first.
+
+2. **Unfinished API integration — high risk**
+   - If the API is needed for dashboard data, it could block launch or cause unreliable results.
+   - Mitigation: assign one developer to complete and stabilize it early; prepare fallback or mock-data options if needed.
+
+3. **Limited team capacity — medium/high risk**
+   - 3 developers must finish development, fix bugs, support testing, and prepare launch.
+   - Mitigation: freeze non-essential features and focus only on launch-critical scope.
+
+4. **Launch readiness — medium risk**
+   - Monitoring, rollback, support, and documentation may be rushed.
+   - Mitigation: create a simple launch checklist, support plan, and rollback process.
+
+---
+
+## 2. Suggested €20,000 budget allocation
+
+| Area | Allocation | Purpose |
+|---|---:|---|
+| Development completion | €7,000 | Finish remaining dashboard functionality |
+| API integration | €4,000 | Complete, test, and stabilize the unfinished integration |
+| Testing & QA | €5,500 | Functional testing, regression testing, bug fixing, UAT |
+| Launch preparation | €2,000 | Deployment readiness, monitoring, release checklist, documentation |
+| Contingency | €1,500 | Buffer for urgent fixes or scope changes |
+| **Total** | **€20,000** |  |
+
+---
+
+## 3. Short recommendation
+
+Focus the next 4 weeks on **launch-critical scope only**. Complete the API integration as the top technical priority, start testing immediately, and avoid adding new features.
+
+I would recommend setting a **feature freeze within the next week**, assigning clear ownership for API completion, QA, and release preparation, and keeping the contingency budget reserved for late-stage defects.

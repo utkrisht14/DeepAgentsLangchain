@@ -1,0 +1,51 @@
+The expected delegation should look roughly like:
+
+Main Agent
+    │
+    ├── task
+    │     ↓
+    │   risk-analyst
+    │     ↓
+    │   Risk report
+    │
+    └── task
+          ↓
+        budget-planner
+          ↓
+        Budget report
+
+          ↓
+     Main Agent
+          ↓
+   Combined recommendation
+
+-----------------------------------------------------------------------
+
+Here we see two task calls similar to:
+
+Tool Name: task
+
+subagent_type: risk-analyst
+description: Analyse the dashboard launch risks...
+
+and:
+
+Tool Name: task
+
+subagent_type: budget-planner
+description: Prepare a budget allocation for €20,000...
+
+Deep Agents automatically adds the task tool when we provide subagents,
+and the main agent uses each subagent's name and description to choose the appropriate specialist.
+By default, these declarative subagents operate with isolated context.
+
+
+The key Lesson 2 concept is:
+Lesson 1:
+Main Agent → One Specialist
+
+Lesson 2:
+Main Agent
+   ├── Specialist A
+   ├── Specialist B
+   └── potentially more specialists
