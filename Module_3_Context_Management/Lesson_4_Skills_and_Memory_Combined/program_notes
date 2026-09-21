@@ -1,0 +1,52 @@
+User asks:
+"Write a professional email"
+        ↓
+Deep Agent starts
+        ↓
+AGENTS.md loaded automatically
+        ↓
+Agent knows:
+- concise
+- polite
+- friendly
+- end with "Best regards"
+        ↓
+Agent sees available skills
+        ↓
+professional-email skill matches request
+        ↓
+Agent reads SKILL.md
+        ↓
+Follows email-writing workflow
+        ↓
+Produces final email
+
+
+
+Program Output:
+Subject: Project Report Update
+
+Hi [Manager’s Name],
+
+I wanted to let you know that I’ll deliver the project report tomorrow instead of today. I need one more day to validate the results and ensure the report is accurate.
+
+Thank you for your understanding.
+
+Best regards,
+
+-------------------------------------
+
+The key idea is:
+
+AGENTS.md
+→ "Keep emails concise and friendly."
+→ MEMORY
+
+SKILL.md
+→ "Follow these steps when writing an email."
+→ SKILL
+
+User request
+→ "Write this particular email."
+→ TASK
+
