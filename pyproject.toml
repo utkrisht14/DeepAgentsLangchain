@@ -14,4 +14,5 @@ dependencies = [
     "langchain-modal>=0.0.6",
     "langchain-quickjs",
     "langgraph>=1.2.11",
+    "langchain-mcp-adapters>=0.3.1",
 ]
