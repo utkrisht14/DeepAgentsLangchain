@@ -17,8 +17,6 @@ def submit_expense(description: str, amount: float) -> str:
     Submit an expense for reimbursement.
     """
 
-    # This is only a demo.
-    # No real expense is submitted.
     return (
         f"Expense submitted successfully.\n"
         f"Description: {description}\n"
