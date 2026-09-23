@@ -1,0 +1,25 @@
+MCP tools are available.
+
+Tool Name: get_order_status
+Description: Get information about an order.
+--------------------------------------------------
+Tool Name: check_refund_eligibility
+Description:
+Check whether an order can be refunded.
+
+Refund policy:
+- Order must already be delivered.
+- Refund request must be within 30 days.
+
+--------------------------------------------------
+Tool Name: create_suppport_note
+Description: Create a support note for an order.
+--------------------------------------------------
+
+FINAL ANSWER:
+
+John, your order ORD-101 for the laptop was delivered 5 days ago, and it is eligible for return/refund.
+
+Refund amount: $1,200
+
+I’ve also recorded a support note that you contacted us about returning the laptop.

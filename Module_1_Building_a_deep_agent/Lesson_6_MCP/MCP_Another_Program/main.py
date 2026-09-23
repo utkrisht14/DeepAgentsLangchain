@@ -1,89 +1,110 @@
 import asyncio
 import sys
 
-
 from pathlib import Path
+from dotenv import load_dotenv
 
 from deepagents import create_deep_agent
-from langchain_mcp_adapters.client import MultiServerMCPClient
+from langchain.mcp import MCPAdapter
+
+
+load_dotenv()
+
 
 async def main():
 
-    # Find our MCP server file
+    # 1. Find our MCP server file
     server_path = Path(__file__).parent / "order_server.py"
 
-    # Configure MCP connection
+
+    # 2. Configure MCP connection
     mcp_config = {
-        "orders": {
-            "command": sys.executable,
-            "args": [str(server_path)],
-            "transport": "stdio"
+        "mcpServers": {
+            "orders": {
+                "command": sys.executable,
+                "args": [str(server_path)],
+                "transport": "stdio",
+            }
         }
     }
 
-    # Create MCP client
-    mcp_client = MultiServerMCPClient(mcp_config)
 
-    # Load MCP tools
-    tools = await mcp_client.get_tools()
+    # 3. Connect to MCP server through MCPAdapter
+    async with MCPAdapter(mcp_config) as adapter:
 
-    print("MCP tools are available.")
+        # 4. Load MCP tools as LangChain tools
+        tools = await adapter.list_tools()
 
-    for tool in tools:
-        print(f"Tool Name: {tool.name}")
-        print(f"Description: {tool.description}")
-        print("-" * 50)
+        print("MCP tools are available.\n")
+
+        for tool in tools:
+            print(f"Tool Name: {tool.name}")
+            print(f"Description: {tool.description}")
+            print("-" * 50)
 
 
-    # Create deep agent
-    agent = create_deep_agent(
-        model="openai:gpt-5.5",
-        tools=tools,
-        system_prompt="""
-        You are a customer support agent.
+        # 5. Create Deep Agent
+        agent = create_deep_agent(
+            model="openai:gpt-5.5",
+            tools=tools,
+            system_prompt="""
+            You are a customer support agent.
 
-        Use the available order tools when you need information
-        about an order.
+            Use the available order tools whenever you need
+            information about an order.
 
-        If the customer asks about a refund:
+            If the customer asks about a refund:
 
-        1. Check the order.
-        2. Check refund eligibility.
-        3. If appropriate, create a support note.
-        4. Explain the result clearly to the customer.
+            1. Check the order.
+            2. Check refund eligibility.
+            3. If appropriate, create a support note.
+            4. Explain the result clearly to the customer.
 
-        Never invent order information.
+            Never invent order information.
+            """
+        )
+
+
+        # 6. User request
+        user_message = """
+        Customer John says:
+
+        I received order ORD-101 a few days ago,
+        but I don't want the laptop anymore.
+
+        Can I return it?
+
+        Please also record that I contacted support.
         """
-    )
 
 
-    # User request
-    user_message = """
-    Customer John says:
+        # 7. Run Deep Agent
+        result = await agent.ainvoke(
+            {
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": user_message
+                    }
+                ]
+            }
+        )
 
-    I received order ORD-101 a few days ago,
-    but I don't want the laptop anymore.
 
-    Can I return it?
+        # 8. Print final answer
+        final_message = result["messages"][-1]
 
-    Please also record that I contacted support.
-    """
+        print("\nFINAL ANSWER:\n")
 
-    # Run deep agent
-    result = await agent.invoke(
-        {
-            "messages": [
-                {
-                    "role": "user",
-                    "content": user_message
-                }
-            ]
-        }
-    )
+        content = final_message.content
 
-    # Print final answer
-    final_message = result["messages"][-1]
-    print(final_message.content)
+        if isinstance(content, str):
+            print(content)
+
+        else:
+            for block in content:
+                if isinstance(block, dict) and block.get("type") == "text":
+                    print(block["text"])
 
 
 if __name__ == "__main__":
